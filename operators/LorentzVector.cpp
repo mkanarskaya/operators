@@ -11,9 +11,7 @@ LorentzVector:: LorentzVector(double x_, double y_, double z_, double t_) {
 	this->z = z_;
 	this->t = t_;
 	}
-LorentzVector::LorentzVector(double, double, double, double)
-{
-}
+
 double LorentzVector::get_x() const {
 	return this->x;
 }
@@ -42,16 +40,23 @@ void LorentzVector::read() {
 
 }
 
-void LorentzVector::print() {
-	std::cout << "Lorentz Vector: x = " << this->x << ", y = " << this->y << ", z = " << this->z << ", t = " << this->t;
+void LorentzVector::print() const{
+	std::cout << "x = " << this->x << ", y = " << this->y << ", z = " << this->z << ", t = " << this->t;
 }
 
+double LorentzVector::norm() const {
+	return (this->x*this->x + this->y * this->y + this->z * this->z - this->t * this->t);
+} 
 
-LorentzVector LorentzVector::trans(double betta) {
-	LorentzVector buv((x - betta*t)/sqrt(1-betta*betta),y,z,(t - betta*x)/sqrt(1-betta*betta));
-	return buv;
+LorentzVector LorentzVector::trans(double betta) const {
+	if (abs(betta) >= 1) return *this;
+	else {
+		LorentzVector result((x - betta * t) / sqrt(1 - betta * betta), y, z, (t - betta * x) / sqrt(1 - betta * betta));
+		return result;
+	}
 }
-LorentzVector LorentzVector::operator+(const LorentzVector & other) {
+
+LorentzVector LorentzVector::operator+(const LorentzVector & other) const{
 	LorentzVector result(x + other.x, y + other.y, z + other.z, t + other.t);
 	return result;
 }
@@ -63,7 +68,7 @@ void LorentzVector::operator +=(const LorentzVector & other) {
 	t += other.t;
 }
 	
-LorentzVector LorentzVector:: operator-(const LorentzVector & other) {
+LorentzVector LorentzVector:: operator-(const LorentzVector & other) const{
 	LorentzVector result(x - other.x, y - other.y, z - other.z, t - other.t);
 	return result;
 }
@@ -75,7 +80,7 @@ void LorentzVector::operator -=(const LorentzVector & other) {
 	t -= other.t;
 }
 
-LorentzVector LorentzVector::operator* (const LorentzVector & other) {
+LorentzVector LorentzVector::operator* (const LorentzVector & other) const{
 	LorentzVector result(this->x * other.x, this->y * other.y, this->z * other.z, this->t * -other.t);
 	return result;
 }
@@ -92,7 +97,7 @@ LorentzVector LorentzVector::operator* (double scalar) {
 	return result;
 }
 
-LorentzVector operator*(double scalar, const LorentzVector & This) {
+LorentzVector operator*(double scalar, const LorentzVector & This){
 	LorentzVector result(This.x * scalar, This.y * scalar, This.z * scalar, This.t * scalar);
 	return result;
 };
@@ -105,13 +110,13 @@ LorentzVector LorentzVector::operator -() {
 	return *this;
 }
 
-std::istream& operator >> (std::istream& in,LorentzVector& other) {
+/*std::istream& operator >> (std::istream& in,LorentzVector& other) {
 	in >> other.x;
 	in >> other.y;
 	in >> other.z;
 	in >> other.t;
 	return in;
-}
+}*/
 
 std::ostream& operator << (std::ostream& out, const LorentzVector & lv) {
 	out << "x = " << lv.x << ", y =  " << lv.y << ", z = " << lv.z << ", t = " << lv.t;

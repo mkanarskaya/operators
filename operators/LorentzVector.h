@@ -15,14 +15,15 @@ public:
 	void set_lv(double, double, double, double);
 
 	void read();
-	void print();
-	LorentzVector trans(double);
-	LorentzVector operator+(const LorentzVector &);
+	void print() const;
+	double norm() const;
+	LorentzVector trans(double) const;
+	LorentzVector operator+(const LorentzVector &) const;
 	void operator +=(const LorentzVector &);
-	LorentzVector operator-(const LorentzVector &);
+	LorentzVector operator-(const LorentzVector &) const;
 	void operator -=(const LorentzVector &);
 
-	LorentzVector operator*(const LorentzVector &);
+	LorentzVector operator*(const LorentzVector &) const;
 
 	LorentzVector operator*(double);
 	friend LorentzVector operator*(double, const LorentzVector &);
